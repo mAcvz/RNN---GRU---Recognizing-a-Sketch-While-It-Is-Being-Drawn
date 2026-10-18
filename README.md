@@ -67,8 +67,6 @@ $$h^{(1)}_t = \mathrm{GRU}_1\big(x_t,\ h^{(1)}_{t-1}\big), \qquad h^{(2)}_t = \m
 Macro F1 0.955, macro ROC AUC 0.999. The most frequent error is *clock* → *pizza* (8%): two circles
 with lines inside.
 
-<img src="presentation/figures/partial.png" alt="Accuracy vs percentage of the sketch seen" width="480">
-
 ## Repository
 
 | File | Content |
@@ -85,9 +83,8 @@ with lines inside.
 pip install torch numpy matplotlib scikit-learn pillow
 ```
 
-Open `quickdraw_gru.ipynb` and run all cells (under a minute: the trained model is loaded from
-`gru_model.pt`). The data (10 files, ~120 MB) is downloaded automatically into `data/`.
-To retrain from scratch, delete `gru_model.pt` and `hparam_search.json` (about 15 minutes on CPU).
+Open `quickdraw_gru.ipynb` and run all cells. The data (10 files, ~120 MB) is downloaded automatically into `data/`.
+To retrain from scratch, delete `gru_model.pt` and `hparam_search.json`.
 
 ## References
 
