@@ -14,22 +14,29 @@ with half of the sketch it is already right 88% of the time.
 
 [Quick, Draw!](https://github.com/googlecreativelab/quickdraw-dataset) (Google) is a collection of
 millions of doodles drawn by people in 20 seconds. We use the stroke version prepared for Sketch-RNN:
-a sketch is **not an image but a time series of pen movements**, one row per point
-(format *stroke-3*). The first points of the cat above:
+a sketch is **not an image but a time series of pen movements** (format *stroke-3*). Each sketch is a
+table with **one row per point** (time) and **three columns** (features): Δx, Δy, pen.
+The cat above, as it is stored (shape 60 × 3):
 
-| point *t* | 1 | 2 | 3 | … | 28 | 29 | … | 60 |
-|---|---|---|---|---|---|---|---|---|
-| Δx | 58 | 29 | 34 | … | 10 | 10 | … | 0 |
-| Δy | 20 | 7 | 3 | … | 0 | −207 | … | 11 |
-| pen | 0 | 0 | 0 | … | **1** | 0 | … | **1** |
+| point *t* | Δx | Δy | pen |
+|:-:|--:|--:|:-:|
+| 1 | 58 | 20 | 0 |
+| 2 | 29 | 7 | 0 |
+| 3 | 34 | 3 | 0 |
+| … | … | … | … |
+| 28 | 10 | 0 | **1** |
+| 29 | 10 | −207 | 0 |
+| … | … | … | … |
+| 60 | 0 | 11 | **1** |
 
 Δx, Δy are the displacement in pixels from the previous point; `pen = 1` means the pen is lifted after
 this point (end of a stroke). The jump Δy = −207 at point 29 is the pen moving to draw an ear.
+The GRU reads this table one row at a time: at step $t$ its input is the row $x_t = (\Delta x, \Delta y, \text{pen})$.
 
 - **10 classes:** cat, bicycle, pizza, guitar, house, airplane, fish, umbrella, clock, tree
 - sketches with at most 100 points (about 90% of all sketches)
 - **100,000** training sketches (10,000 per class), **23,609** validation, **23,537** test
-- Δx, Δy are standardized with the training set; shorter sketches are zero-padded to 100 points
+- Δx, Δy are standardized with the training set; shorter sketches are zero-padded to 100 rows
 
 ## Model
 
